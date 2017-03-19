@@ -136,34 +136,54 @@ function init(){
 
 
 
+	house = new PIXI.Sprite(PIXI.TextureCache['house']);
+	house.x = WORLD_RIGHT;
+	house.y = -60;
+	house.scale.x = house.scale.y = 2;
+	house.anchor.x = 0.5;
+	house.anchor.y = 1;
+	house.filters = [sprite_filter];
+
+
+	house2 = new PIXI.Sprite(PIXI.TextureCache['house']);
+	house2.x = WORLD_LEFT+20;
+	house2.y = -60;
+	house2.scale.x = house2.scale.y = 2;
+	house2.anchor.x = 0.5;
+	house2.anchor.y = 1;
+	house2.filters = [sprite_filter];
+
+	fence = new PIXI.Sprite(PIXI.TextureCache['fence']);
+	fence.x = WORLD_RIGHT+40;
+	fence.y = -10;
+	fence.scale.x = fence.scale.y = 2;
+	fence.anchor.x = 0;
+	fence.anchor.y = 0.5;
+	fence.filters = [sprite_filter];
+
+	fence2 = new PIXI.Sprite(PIXI.TextureCache['fence']);
+	fence2.x = WORLD_LEFT-40;
+	fence2.y = -10;
+	fence2.scale.x = fence2.scale.y = 2;
+	fence2.scale.x *= -1;
+	fence2.anchor.x = 0;
+	fence2.anchor.y = 0.5;
+	fence2.filters = [sprite_filter];
+
 
 	characters.con.addChild(player.con);
 
 	for(var i = 0; i < bushes.layersBack.length; ++i){
 		world.con.addChild(bushes.layersBack[i]);
 	}
-
-	house = new PIXI.Sprite(PIXI.TextureCache['house']);
-	house.x = WORLD_RIGHT;
-	house.y = -70;
-	house.scale.x = house.scale.y = 2;
-	house.anchor.x = 0.5;
-	house.anchor.y = 1;
-	house.filters = [sprite_filter];
 	world.con.addChild(house);
-
-	fence = new PIXI.Sprite(PIXI.TextureCache['fence']);
-	fence.x = WORLD_RIGHT+40;
-	fence.y = -30;
-	fence.scale.x = fence.scale.y = 2;
-	fence.anchor.x = 0;
-	fence.anchor.y = 0.5;
-	fence.filters = [sprite_filter];
+	world.con.addChild(house2);
 
 
 	world.con.addChild(characters.con);
 
 	world.con.addChild(fence);
+	world.con.addChild(fence2);
 
 	for(var i = 0; i < bushes.layersFront.length; ++i){
 		world.con.addChild(bushes.layersFront[i]);
