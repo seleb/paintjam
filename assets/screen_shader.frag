@@ -18,7 +18,7 @@ void main(void){
 
 	uvs = uvs*uBufferSize/uScreenSize;
 	float center = pow(distance(uvs, vec2(0.5)),2.0)/4.0;
-	uvs.y -= center;
+	uvs.y -= center*uvs.y;
 
 	float blur = 32.0 / length(uBufferSize) * center + (max(0.0, distance(uvs.y, 0.7)-0.2))/128.0;
 	vec3 fg = vec3(0.0);
@@ -32,5 +32,7 @@ void main(void){
 
 	// output
 	gl_FragColor.rgb = fg;
+	//gl_FragColor.r = (step(uvs.y,0.0));
+	//gl_FragColor.g = (step(uvs.y,1.0));
 	gl_FragColor.a = 1.0;
 }

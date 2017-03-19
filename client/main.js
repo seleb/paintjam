@@ -55,72 +55,91 @@ function init(){
 	game.addChild(bg);
 	game.addChild(world.con);
 
-	var bushes = new PIXI.Container();
-	for (var i = 0; i < 10; ++i){
-		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+(i%3+1).toString(10)]);
-		bush.filters = [sprite_filter];
-		bush.x = Math.floor(Math.random()*size.x*4);
-		bush.y = -70+i;
-		bush.scale.x = bush.scale.y = (Math.random()-.5)*.6 + 1;
-		bush.anchor.x = 0.5;
-		bush.anchor.y = 1;
-		bushes.addChild(bush);
+	bushes={
+		layersBack: [],
+		layersFront: [],
+		bushes: []
 	}
 
+	var numBushes = 120;
+	bushWidth = 0;
+	for(var l = 0; l < 3; ++l){
+		var layer = new PIXI.Container();
+		layer.filters = [sprite_filter];
+		bushes.layersBack.push(layer);
+	for (var i = 0, x = 0; i < numBushes/2; ++i){
+		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+((l*i+i+i*4)%3+1).toString(10)]);
+		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.8 + 1.5 + l/8;
+		bush.rootX = x;//Math.floor(i/(numBushes/2+.5)*size.x)*bushWidth;
+		x += bush.width;
+		bush.x = bush.rootX;
+		bush.y = -120+i%5+l*20;
+		bush.anchor.x = 0;
+		bush.anchor.y = 1;
+		layer.addChild(bush);
+		bushes.bushes.push(bush);
+		bushWidth = Math.max(bushWidth, x);
+	}
+	}
+	for(var l = 0; l < 3; ++l){
+		var layer = new PIXI.Container();
+		layer.filters = [sprite_filter];
+		bushes.layersFront.push(layer);
+	for (var i = 0, x = 0; i < numBushes/2; ++i){
+		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+((l*i+i+i*9)%3+1).toString(10)]);
+		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.3 + 1.85 + l/8;
+		bush.rootX = x;//Math.floor(i/(numBushes/2)*size.x)*bushWidth;
+		x += bush.width;
+		bush.x = bush.rootX;
+		bush.y = 80+i%5+l*20;
+		bush.anchor.x = 0;
+		bush.anchor.y = 1;
+		layer.addChild(bush);
+		bushes.bushes.push(bush);
+		bushWidth = Math.max(bushWidth, x);
+	}
+	}
+	bushWidth /= size.x;
 
-	characters = new PIXI.Container();
 
-	frogge = new PIXI.Sprite(PIXI.TextureCache['frogge']);
-	frogge.filters = [sprite_filter];
-	frogge.x = 200;
-	frogge.y = 0;
-	frogge.anchor.x = 0.5;
-	frogge.anchor.y = 1;
-	characters.addChild(frogge);
+	characters = {
+		con: new PIXI.Container(),
+		characters: []
+	}
 
-
-
-	player = {
-		p:{
-			x:0,y:0
-		},
-		v:{
-			x:0,y:0
-		}
-	};
-
-	player.con = new PIXI.Container();
-	player.shadow = new PIXI.Sprite(PIXI.TextureCache['shadows']);
-	player.shadow.filters = [sprite_filter];
-	player.shadow.anchor.x = 0.5;
-	player.shadow.anchor.y = .75;
-	player.spr = new PIXI.Sprite(PIXI.TextureCache['player_idle']);
-	player.spr.filters = [sprite_filter];
-	player.spr.anchor.x = 0.5;
-	player.spr.anchor.y = 1.0;
+	player = new Character('player_idle');
 	player.camPoint = new PIXI.DisplayObject();
 	player.camPoint.visible = false;
-	player.con.addChild(player.shadow);
-	player.con.addChild(player.spr);
 	player.con.addChild(player.camPoint);
-	characters.addChild(player.con);
+	characters.characters.push(player);
 
-	var bushes2 = new PIXI.Container();
-	for (var i = 0; i < 10; ++i){
-		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+(i%1+1).toString(10)]);
-		bush.filters = [sprite_filter];
-		bush.x = Math.floor(Math.random()*size.x*4);
-		bush.y = 80+i;
-		bush.scale.x = bush.scale.y = (Math.random()-.5)*.3 + 1.5;
-		bush.anchor.x = 0.5;
-		bush.anchor.y = 1;
-		bushes2.addChild(bush);
+	player.p.x = 5000;
+	world.p.x = 5000;
+
+	frogge = new Character('frogge');
+	frogge.p.x = 200;
+	frogge.p.y = 0;
+	characters.con.addChild(frogge.con);
+	characters.characters.push(frogge);
+
+	birb = new Character('birb');
+	birb.p.x = 400;
+	birb.p.y = 0;
+	characters.con.addChild(birb.con);
+	characters.characters.push(birb);
+
+
+
+
+	characters.con.addChild(player.con);
+
+	for(var i = 0; i < bushes.layersBack.length; ++i){
+		world.con.addChild(bushes.layersBack[i]);
 	}
-
-	world.con.addChild(bushes);
-	world.con.addChild(characters);
-	world.con.addChild(bushes2);
-
+	world.con.addChild(characters.con);
+	for(var i = 0; i < bushes.layersFront.length; ++i){
+		world.con.addChild(bushes.layersFront[i]);
+	}
 
 	text = new PIXI.Text("hey what's up", {
 		fontFamily: 'Comic Sans MS',
@@ -158,11 +177,18 @@ function update(){
 	player.v.y *= 0.8;
 	player.v.y += input.move.y;
 
-	if (player.p.y > 50) {
-		player.v.y -= (player.p.y - 50)/3;
+	if (player.p.y > 70) {
+		player.v.y -= (player.p.y - 70)/3;
 	}
-	if (player.p.y < -50) {
-		player.v.y -= (player.p.y + 50)/3;
+	if (player.p.y < -70) {
+		player.v.y -= (player.p.y + 70)/3;
+	}
+
+	if (player.p.x > 5000) {
+		player.v.x -= (player.p.x - 5000)/3;
+	}
+	if (player.p.x < -10000) {
+		player.v.x -= (player.p.x + 10000)/3;
 	}
 
 	player.p.x += player.v.x;
@@ -181,38 +207,37 @@ function update(){
 			player.spr.texture = PIXI.TextureCache['player_idle'];
 		}
 	}
-	var freq = (player.running ? 0.5 : 1.0) * 200;
+	player.freq = (player.running ? 0.5 : 1.0) * 200;
 	if (player.running) {
 		if(player.running > 5){
-			player.spr.texture = PIXI.TextureCache['player_run_'+(Math.floor(curTime/freq)%2+1)];
+			player.spr.texture = PIXI.TextureCache['player_run_'+(Math.floor(curTime/player.freq)%2+1)];
 		}
 		player.flipped = player.v.x < 0;
-		player.spr.anchor.y = 1 + Math.abs(Math.pow(Math.sin(curTime/freq),2))/20;
+		player.spr.anchor.y = 1 + Math.abs(Math.pow(Math.sin(curTime/player.freq),2))/20;
 	} else {
 		player.spr.anchor.y = 1;
 	}
 
 	if (player.p.y > 0) {
-		characters.addChild(player.con);
+		characters.con.addChild(player.con);
 	}else {
-		characters.addChildAt(player.con,0);
+		characters.con.addChildAt(player.con,0);
 	}
 
-	// update player sprite
 	player.camPoint.position.x = clamp(-1, player.v.x/3, 1) * size.x * 0.7;
 
-	player.con.x = Math.floor(player.p.x);
-	player.con.y = Math.floor(player.p.y);
+	for(var i = 0; i < characters.characters.length; ++i){
+		characters.characters[i].update();
+	}
 
-	player.scale = .8+(player.p.y+50)/300;
-	player.spr.scale.y = player.scale + (Math.sin(curTime/freq)/30 + Math.abs(Math.sin(curTime/freq)/10));
-	player.spr.scale.x = player.flipped ? -player.scale : player.scale;
-	player.spr.skew.x = player.v.x/50;
-	player.shadow.width = player.spr.width - (Math.sin(curTime/freq)/30 + Math.abs(Math.sin(curTime/freq)/10))*64;
+	for(var i = 0, bush; i < bushes.bushes.length; ++i){
+		bush = bushes.bushes[i];
+		bush.position.x = Math.floor(bush.rootX + Math.floor((player.p.x-bush.rootX)/(size.x*bushWidth))*size.x*bushWidth)+size.x*bushWidth/2;
+	}
 
 	// camera
-	world.scale = lerp(world.scale, 1 - Math.abs(player.v.y+player.v.x)/32, 0.1);
-	world.con.scale.x = world.con.scale.y = Math.floor(world.scale*64)/64;
+	world.scale = lerp(world.scale, 1 - Math.abs(player.v.y+player.v.x)/32, 0.2);
+	world.con.scale.x = world.con.scale.y = lerp(world.con.scale.x, Math.floor(world.scale*8+.1)/8, 0.2);
 
 	var p = world.con.toLocal(PIXI.zero, player.camPoint);
 
