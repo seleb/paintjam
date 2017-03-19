@@ -1,8 +1,16 @@
 {"frames": [
 
 {
+	"filename": "barp.png",
+	"frame": {"x":4,"y":228,"w":171,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":139},
+	"sourceSize": {"w":171,"h":139}
+},
+{
 	"filename": "birb.png",
-	"frame": {"x":127,"y":221,"w":149,"h":139},
+	"frame": {"x":179,"y":228,"w":149,"h":139},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":149,"h":139},
@@ -18,7 +26,7 @@
 },
 {
 	"filename": "bush_2.png",
-	"frame": {"x":319,"y":4,"w":105,"h":88},
+	"frame": {"x":436,"y":4,"w":105,"h":88},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":88},
@@ -33,12 +41,44 @@
 	"sourceSize": {"w":175,"h":89}
 },
 {
+	"filename": "fence.png",
+	"frame": {"x":556,"y":96,"w":43,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":128},
+	"sourceSize": {"w":43,"h":128}
+},
+{
 	"filename": "frogge.png",
-	"frame": {"x":280,"y":221,"w":195,"h":165},
+	"frame": {"x":332,"y":228,"w":195,"h":165},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":195,"h":165},
 	"sourceSize": {"w":195,"h":165}
+},
+{
+	"filename": "house.png",
+	"frame": {"x":201,"y":397,"w":300,"h":238},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":300,"h":238},
+	"sourceSize": {"w":300,"h":238}
+},
+{
+	"filename": "krinny.png",
+	"frame": {"x":4,"y":397,"w":193,"h":191},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":191},
+	"sourceSize": {"w":193,"h":191}
+},
+{
+	"filename": "moop.png",
+	"frame": {"x":319,"y":4,"w":113,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":113,"h":73},
+	"sourceSize": {"w":113,"h":73}
 },
 {
 	"filename": "player_idle.png",
@@ -58,7 +98,7 @@
 },
 {
 	"filename": "player_run_2.png",
-	"frame": {"x":4,"y":221,"w":119,"h":127},
+	"frame": {"x":433,"y":96,"w":119,"h":127},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":127},
@@ -77,8 +117,8 @@
 	"version": "1.0",
 	"image": "textures.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":512},
+	"size": {"w":639,"h":639},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:7956b55d233532e9b6b3ea933c10f6f3:2e8b34f3b4657cc1887c1c2460441db1:cf827d152df04949dfee256cd0c8efd8$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a4426b3243b6e8b99e544873511780da:5c8361689cf109db0ad90077fd0d86a1:cf827d152df04949dfee256cd0c8efd8$"
 }
 }

@@ -69,11 +69,11 @@ function init(){
 		bushes.layersBack.push(layer);
 	for (var i = 0, x = 0; i < numBushes/2; ++i){
 		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+((l*i+i+i*4)%3+1).toString(10)]);
-		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.8 + 1.5 + l/8;
+		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.8 + 1.25 + l/8;
 		bush.rootX = x;//Math.floor(i/(numBushes/2+.5)*size.x)*bushWidth;
 		x += bush.width;
 		bush.x = bush.rootX;
-		bush.y = -120+i%5+l*20;
+		bush.y = -150+i%5+l*40;
 		bush.anchor.x = 0;
 		bush.anchor.y = 1;
 		layer.addChild(bush);
@@ -87,11 +87,11 @@ function init(){
 		bushes.layersFront.push(layer);
 	for (var i = 0, x = 0; i < numBushes/2; ++i){
 		bush = new PIXI.Sprite(PIXI.TextureCache['bush_'+((l*i+i+i*9)%3+1).toString(10)]);
-		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.3 + 1.85 + l/8;
+		bush.scale.x = bush.scale.y = (i%(numBushes/3)/(numBushes/3)-.5)*.3 + 1.5 + l/8;
 		bush.rootX = x;//Math.floor(i/(numBushes/2)*size.x)*bushWidth;
 		x += bush.width;
 		bush.x = bush.rootX;
-		bush.y = 80+i%5+l*20;
+		bush.y = 80+i%5+l*40;
 		bush.anchor.x = 0;
 		bush.anchor.y = 1;
 		layer.addChild(bush);
@@ -104,7 +104,14 @@ function init(){
 
 	characters = {
 		con: new PIXI.Container(),
-		characters: []
+		characters: [],
+		names: [
+			"frogge",
+			"birb",
+			"moop",
+			"barp",
+			"krinny"
+		]
 	}
 
 	player = new Character('player_idle');
@@ -113,20 +120,19 @@ function init(){
 	player.con.addChild(player.camPoint);
 	characters.characters.push(player);
 
-	player.p.x = 5000;
-	world.p.x = 5000;
+	WORLD_RIGHT = 3000;
+	WORLD_LEFT = -8500;
+	player.p.x = WORLD_RIGHT;
+	world.p.x = WORLD_RIGHT;
 
-	frogge = new Character('frogge');
-	frogge.p.x = 200;
-	frogge.p.y = 0;
-	characters.con.addChild(frogge.con);
-	characters.characters.push(frogge);
 
-	birb = new Character('birb');
-	birb.p.x = 400;
-	birb.p.y = 0;
-	characters.con.addChild(birb.con);
-	characters.characters.push(birb);
+	for(var i = 0; i < characters.names.length; ++i){
+		var c = new Character(characters.names[i]);
+		c.p.x = ((i+1)/characters.names.length) * (WORLD_LEFT - WORLD_RIGHT)*.8 + WORLD_RIGHT;
+		c.p.y = -30;
+		characters.con.addChild(c.con);
+		characters.characters.push(c);
+	}
 
 
 
@@ -136,7 +142,29 @@ function init(){
 	for(var i = 0; i < bushes.layersBack.length; ++i){
 		world.con.addChild(bushes.layersBack[i]);
 	}
+
+	house = new PIXI.Sprite(PIXI.TextureCache['house']);
+	house.x = WORLD_RIGHT;
+	house.y = -70;
+	house.scale.x = house.scale.y = 2;
+	house.anchor.x = 0.5;
+	house.anchor.y = 1;
+	house.filters = [sprite_filter];
+	world.con.addChild(house);
+
+	fence = new PIXI.Sprite(PIXI.TextureCache['fence']);
+	fence.x = WORLD_RIGHT+40;
+	fence.y = -30;
+	fence.scale.x = fence.scale.y = 2;
+	fence.anchor.x = 0;
+	fence.anchor.y = 0.5;
+	fence.filters = [sprite_filter];
+
+
 	world.con.addChild(characters.con);
+
+	world.con.addChild(fence);
+
 	for(var i = 0; i < bushes.layersFront.length; ++i){
 		world.con.addChild(bushes.layersFront[i]);
 	}
@@ -184,11 +212,11 @@ function update(){
 		player.v.y -= (player.p.y + 70)/3;
 	}
 
-	if (player.p.x > 5000) {
-		player.v.x -= (player.p.x - 5000)/3;
+	if (player.p.x > WORLD_RIGHT) {
+		player.v.x -= (player.p.x - WORLD_RIGHT)/3;
 	}
-	if (player.p.x < -10000) {
-		player.v.x -= (player.p.x + 10000)/3;
+	if (player.p.x < WORLD_LEFT) {
+		player.v.x -= (player.p.x - WORLD_LEFT)/3;
 	}
 
 	player.p.x += player.v.x;
@@ -218,7 +246,7 @@ function update(){
 		player.spr.anchor.y = 1;
 	}
 
-	if (player.p.y > 0) {
+	if (player.p.y > -30) {
 		characters.con.addChild(player.con);
 	}else {
 		characters.con.addChildAt(player.con,0);
