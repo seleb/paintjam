@@ -4,31 +4,91 @@
 		"name": "frogge",
 		"text": [
 			"*ribbit*",
-			"*croak*"
+			"*croak*",
+			"*ribbit*",
+			"*croak*",
+			"*ribbit*",
+			"*croak*",
+			"*ribbit*",
+			"*croak*",
+			"look, just move along kid",
+			"this is none of your business"
 		]
 	},
 	{
-		"name": "birb",
+		"name": "the lulus",
 		"text": [
-			"*ribbit*"
+			"friends are nice"
+		]
+	},
+	{
+		"name": "klyle",
+		"text": [
+			"hey have you seen denno",
+			"he owes me a fiveroni",
+			"it's no biggie though",
+			"he needs it more than i do"
+		]
+	},
+	{
+		"name": "voober",
+		"text": [
+			"hey kid",
+			"listen to your parents and be good",
+			"unless your parents aren't good",
+			"ok?",
+			"ok"
 		]
 	},
 	{
 		"name": "moop",
 		"text": [
-			"*ribbit*"
+			"*moop*",
+			"*moop*",
+			"*moop*",
+			"*MOOP*",
+			"*moop*"
 		]
 	},
 	{
 		"name": "barp",
 		"text": [
-			"*ribbit*"
+			"i'll fight ya!",
+			"wait you're just a kid",
+			"ok i won't fight ya..."
 		]
 	},
 	{
 		"name": "krinny",
 		"text": [
-			"*ribbit*"
+			"ohhh noooo",
+			"no, i'm ok",
+			"run along sarah and\ngo have fun!",
+			"kids have it so easy..."
+		]
+	},
+	{
+		"name": "birb",
+		"text": [
+			"*tweet*",
+			"*chirp*",
+			"*twiddle-diddle*"
+		]
+	},
+	{
+		"name": "denno",
+		"text": [
+			"did you hear that the kid down\nthe road got a new pup?",
+			"pups are too cute",
+			"i wish i had a pup"
+		]
+	},
+	{
+		"name": "bob",
+		"text": [
+			"oh hi sarah",
+			"you're headed to your\nlittle friend's house?",
+			"have fun!"
 		]
 	}
 	]

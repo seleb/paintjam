@@ -108,9 +108,11 @@ function init(){
 
 	characters = {
 		con: new PIXI.Container(),
+		con2: new PIXI.Container(),
 		characters: [],
 		data: PIXI.loader.resources.characters.data.characters
 	}
+	characters.con.addChild(characters.con2);
 
 	player = new Character('player_idle');
 	player.camPoint = new PIXI.DisplayObject();
@@ -130,7 +132,7 @@ function init(){
 		c.text = characters.data[i].text;
 		c.p.x = ((i+1)/characters.data.length) * (WORLD_LEFT - WORLD_RIGHT)*.8 + WORLD_RIGHT;
 		c.p.y = -30;
-		characters.con.addChild(c.con);
+		characters.con2.addChild(c.con);
 		characters.characters.push(c);
 	}
 
@@ -254,8 +256,11 @@ function update(){
 			continue;
 		}
 
-		if (Math.pow(c.p.x - player.p.x, 2.0)/4 + Math.pow((c.p.y+20) - player.p.y, 2.0)*2 < 4000){
-			target = c;
+		var xd = Math.pow(c.p.x - player.p.x, 2.0);
+		if (xd < 4000){
+			if(xd/4 + Math.pow((c.p.y+20) - player.p.y, 2.0)*2 < 4000){
+				target = c;
+			}
 		}
 	}
 	if(player.talkTarget != target){
@@ -270,7 +275,7 @@ function update(){
 
 	if(target && input.talk){
 		text.text = target.text[target.talkOffset];
-		target.talkOffset = (target.talkOffset + 1)%target.text.length;
+		target.talkOffset = Math.min(target.talkOffset + 1, target.text.length-1);
 
 		text.scale.x -= .5;
 		text.scale.y += 2;
@@ -304,6 +309,7 @@ function update(){
 	}
 
 	player.p.x += player.v.x;
+	var oldy = player.p.y;
 	player.p.y += player.v.y;
 
 
@@ -330,9 +336,9 @@ function update(){
 		player.spr.anchor.y = 1;
 	}
 
-	if (player.p.y > -30) {
+	if (oldy <= -30 && player.p.y > -30) {
 		characters.con.addChild(player.con);
-	}else {
+	}else if(oldy >= -30 && player.p.y < -30) {
 		characters.con.addChildAt(player.con,0);
 	}
 
@@ -345,6 +351,8 @@ function update(){
 	for(var i = 0, bush; i < bushes.bushes.length; ++i){
 		bush = bushes.bushes[i];
 		bush.position.x = Math.floor(bush.rootX + Math.floor((player.p.x-bush.rootX)/(size.x*bushWidth))*size.x*bushWidth)+size.x*bushWidth/2;
+
+		bush.visible = Math.abs(bush.position.x - player.p.x) < size.x*1.5;
 	}
 
 	// camera
@@ -365,7 +373,7 @@ function update(){
 
 	// ENDGAME
 	if (Math.pow(WORLD_RIGHT - player.p.x, 2.0)/4 + Math.pow(-80 - player.p.y, 2.0)*2 < 4000){
-		text.text = "go to blank's house";
+		text.text = "go to friend's house";
 		player.talkTarget = "endgame";
 		if(input.talk){
 			endGame();
