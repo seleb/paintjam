@@ -2,7 +2,7 @@
 
 {
 	"filename": "barp.png",
-	"frame": {"x":4,"y":228,"w":171,"h":139},
+	"frame": {"x":4,"y":4,"w":171,"h":139},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":171,"h":139},
@@ -10,7 +10,7 @@
 },
 {
 	"filename": "birb.png",
-	"frame": {"x":179,"y":228,"w":149,"h":139},
+	"frame": {"x":179,"y":4,"w":149,"h":139},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":149,"h":139},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "bush_1.png",
-	"frame": {"x":123,"y":4,"w":192,"h":62},
+	"frame": {"x":332,"y":4,"w":192,"h":62},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":62},
@@ -26,7 +26,7 @@
 },
 {
 	"filename": "bush_2.png",
-	"frame": {"x":436,"y":4,"w":105,"h":88},
+	"frame": {"x":528,"y":4,"w":105,"h":88},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":88},
@@ -34,15 +34,23 @@
 },
 {
 	"filename": "bush_3.png",
-	"frame": {"x":4,"y":96,"w":175,"h":89},
+	"frame": {"x":637,"y":4,"w":175,"h":89},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":175,"h":89},
 	"sourceSize": {"w":175,"h":89}
 },
 {
+	"filename": "endgame.png",
+	"frame": {"x":4,"y":147,"w":634,"h":357},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":634,"h":357},
+	"sourceSize": {"w":634,"h":357}
+},
+{
 	"filename": "fence.png",
-	"frame": {"x":556,"y":96,"w":43,"h":128},
+	"frame": {"x":642,"y":147,"w":43,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":128},
@@ -50,7 +58,7 @@
 },
 {
 	"filename": "frogge.png",
-	"frame": {"x":332,"y":228,"w":195,"h":165},
+	"frame": {"x":4,"y":508,"w":195,"h":165},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":195,"h":165},
@@ -58,7 +66,7 @@
 },
 {
 	"filename": "house.png",
-	"frame": {"x":201,"y":397,"w":300,"h":238},
+	"frame": {"x":203,"y":508,"w":300,"h":238},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":300,"h":238},
@@ -66,7 +74,7 @@
 },
 {
 	"filename": "krinny.png",
-	"frame": {"x":4,"y":397,"w":193,"h":191},
+	"frame": {"x":507,"y":508,"w":193,"h":191},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":191},
@@ -74,7 +82,7 @@
 },
 {
 	"filename": "moop.png",
-	"frame": {"x":319,"y":4,"w":113,"h":73},
+	"frame": {"x":704,"y":508,"w":113,"h":73},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":113,"h":73},
@@ -82,7 +90,7 @@
 },
 {
 	"filename": "player_idle.png",
-	"frame": {"x":183,"y":96,"w":115,"h":110},
+	"frame": {"x":4,"y":750,"w":115,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":115,"h":110},
@@ -90,7 +98,7 @@
 },
 {
 	"filename": "player_run_1.png",
-	"frame": {"x":302,"y":96,"w":127,"h":121},
+	"frame": {"x":123,"y":750,"w":127,"h":121},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":121},
@@ -98,7 +106,7 @@
 },
 {
 	"filename": "player_run_2.png",
-	"frame": {"x":433,"y":96,"w":119,"h":127},
+	"frame": {"x":254,"y":750,"w":119,"h":127},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":127},
@@ -106,7 +114,7 @@
 },
 {
 	"filename": "shadows.png",
-	"frame": {"x":4,"y":4,"w":115,"h":19},
+	"frame": {"x":377,"y":750,"w":115,"h":19},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":115,"h":19},
@@ -117,8 +125,8 @@
 	"version": "1.0",
 	"image": "textures.png",
 	"format": "RGBA8888",
-	"size": {"w":639,"h":639},
+	"size": {"w":881,"h":881},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:743f9b0860314e3dd0fef038517e8bb9:19102c0082175738d97aa0efa6e30843:cf827d152df04949dfee256cd0c8efd8$"
+	"smartupdate": "$TexturePacker:SmartUpdate:994610c4536c95bd2a052dbe5d588f5b:d5dedd196119bdadd1bfc0c14b3f9c26:cf827d152df04949dfee256cd0c8efd8$"
 }
 }

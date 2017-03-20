@@ -66,6 +66,7 @@ $(document).ready(function(){
 
 	PIXI.loader
 		.add('textures', 'assets/textures.png')
+		.add('characters', 'assets/characters.json')
 		.add('textures_json', 'assets/textures.json')
 		.add('vert','assets/passthrough.vert')
 		.add('screen_shader','assets/screen_shader.frag')

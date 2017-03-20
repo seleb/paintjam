@@ -1,9 +1,11 @@
 function Character(_spr){
+	this.name = _spr;
 	this.p = {x:0,y:0};
 	this.v = {x:0,y:0};
 	this.scale = 1.0;
 	this.freq = 200;
 	this.offset = Character.offset;
+	this.talkOffset = 0;
 	Character.offset += 1;
 
 	this.flipped = false;
@@ -27,7 +29,7 @@ Character.prototype.update = function(){
 	this.con.x = Math.floor(this.p.x);
 	this.con.y = Math.floor(this.p.y);
 
-	this.scale = .8+(this.p.y+50)/300;
+	this.scale = lerp(this.scale, .8+(this.p.y+50)/300, .3);
 	this.spr.scale.y = this.scale + (Math.sin(curTime/this.freq + this.offset)/30 + Math.abs(Math.sin(curTime/this.freq + this.offset)/10));
 	this.spr.scale.x = this.flipped ? -this.scale : this.scale;
 	this.spr.skew.x = this.v.x/50;

@@ -3,7 +3,9 @@ function main(){
 	curTime = Date.now()-startTime;
 	deltaTime = curTime-lastTime;
 
-	update();
+	if(!gameEnded){
+		update();
+	}
 	render();
 
 	lastTime = curTime;
@@ -13,6 +15,8 @@ function main(){
 }
 
 function init(){
+	gameEnded = false;
+
 	// save a reference to the texture atlas
 	for(var i = 0; i < PIXI.loader.resources.textures_json.data.frames.length; ++i){
 		PIXI.TextureCache[PIXI.loader.resources.textures_json.data.frames[i].filename.split('.')[0]] = PIXI.TextureCache[i];
@@ -105,13 +109,7 @@ function init(){
 	characters = {
 		con: new PIXI.Container(),
 		characters: [],
-		names: [
-			"frogge",
-			"birb",
-			"moop",
-			"barp",
-			"krinny"
-		]
+		data: PIXI.loader.resources.characters.data.characters
 	}
 
 	player = new Character('player_idle');
@@ -122,13 +120,15 @@ function init(){
 
 	WORLD_RIGHT = 3000;
 	WORLD_LEFT = -8500;
-	player.p.x = WORLD_RIGHT;
-	world.p.x = WORLD_RIGHT;
+	player.p.x = WORLD_LEFT;
+	player.p.y = -50;
+	world.p.x = WORLD_LEFT;
 
 
-	for(var i = 0; i < characters.names.length; ++i){
-		var c = new Character(characters.names[i]);
-		c.p.x = ((i+1)/characters.names.length) * (WORLD_LEFT - WORLD_RIGHT)*.8 + WORLD_RIGHT;
+	for(var i = 0; i < characters.data.length; ++i){
+		var c = new Character(characters.data[i].name);
+		c.text = characters.data[i].text;
+		c.p.x = ((i+1)/characters.data.length) * (WORLD_LEFT - WORLD_RIGHT)*.8 + WORLD_RIGHT;
 		c.p.y = -30;
 		characters.con.addChild(c.con);
 		characters.characters.push(c);
@@ -189,19 +189,46 @@ function init(){
 		world.con.addChild(bushes.layersFront[i]);
 	}
 
-	text = new PIXI.Text("hey what's up", {
+	font = {
 		fontFamily: 'Comic Sans MS',
 		fontWeight: 'bold',
-		fontSize: 24,
+		fontSize: 32,
 		fill : 0x000000,
-		align : 'center',
+		stroke : 0xFFFFFF,
+		strokeThickness : 3,
+		align : 'left',
 		antiAliased: false
-	});
+	};
+	text = new PIXI.Text("", font);
 	text.y = -200;
+	text.anchor.x = 0.5;
+	text.anchor.y = 0.5;
 	player.con.addChild(text);
 
 	// start the main loop
 	main();
+}
+
+function endGame(){
+
+	game.removeChild(world.con);
+	world.con.destroy();
+	world = null;
+
+	var spr = new PIXI.Sprite(PIXI.TextureCache["endgame"]);
+	spr.filters = [sprite_filter];
+	game.addChild(spr);
+
+	blah = new PIXI.Text("the end", font);
+
+	game.addChild(blah);
+	blah.x = size.x/4;
+	blah.y = size.y/4;
+	blah.anchor.x = 0.5;
+	blah.anchor.y = 0.5;
+
+
+	gameEnded = true;
 }
 
 function onResize() {
@@ -216,6 +243,43 @@ function update(){
 
 
 	var input = getInput();
+
+
+
+	// TALKING
+	var target = null;
+	for(var i = 0; i < characters.characters.length; ++i){
+		var c = characters.characters[i];
+		if(c== player){
+			continue;
+		}
+
+		if (Math.pow(c.p.x - player.p.x, 2.0)/4 + Math.pow((c.p.y+20) - player.p.y, 2.0)*2 < 4000){
+			target = c;
+		}
+	}
+	if(player.talkTarget != target){
+		player.talkTarget = target;
+
+		if(target){
+			text.text = "talk to "+target.name;
+		}else{
+			text.text = "";
+		}
+	}
+
+	if(target && input.talk){
+		text.text = target.text[target.talkOffset];
+		target.talkOffset = (target.talkOffset + 1)%target.text.length;
+
+		text.scale.x -= .5;
+		text.scale.y += 2;
+		target.scale += .2;
+	}
+
+	text.scale.x = lerp(text.scale.x, 1, 0.2);
+	text.scale.y = lerp(text.scale.y, 1, 0.2);
+
 
 
 	// update player
@@ -284,7 +348,7 @@ function update(){
 	}
 
 	// camera
-	world.scale = lerp(world.scale, 1 - Math.abs(player.v.y+player.v.x)/32, 0.2);
+	world.scale = lerp(world.scale, 1 - (Math.abs(player.v.y)+Math.abs(player.v.x))/32, 0.2);
 	world.con.scale.x = world.con.scale.y = lerp(world.con.scale.x, Math.floor(world.scale*8+.1)/8, 0.2);
 
 	var p = world.con.toLocal(PIXI.zero, player.camPoint);
@@ -295,6 +359,18 @@ function update(){
 	world.con.pivot.y = Math.floor(world.p.y);
 	world.con.position.x = size.x/2;
 	world.con.position.y = size.y/4*3;
+
+
+
+
+	// ENDGAME
+	if (Math.pow(WORLD_RIGHT - player.p.x, 2.0)/4 + Math.pow(-80 - player.p.y, 2.0)*2 < 4000){
+		text.text = "go to blank's house";
+		player.talkTarget = "endgame";
+		if(input.talk){
+			endGame();
+		}
+	}
 
 	// update input managers
 	keys.update();
@@ -314,12 +390,16 @@ function getInput(){
 			x: gamepads.getAxis(gamepads.LSTICK_H),
 			y: gamepads.getAxis(gamepads.LSTICK_V)
 		},
-		aim:{
-			x: gamepads.getAxis(gamepads.RSTICK_H),
-			y: gamepads.getAxis(gamepads.RSTICK_V)
-		},
-		jump: gamepads.isJustDown(gamepads.A) || keys.isJustDown(keys.SPACE),
-		jumpExtend: gamepads.isDown(gamepads.A) || keys.isDown(keys.SPACE)
+		talk:
+			gamepads.isJustDown(gamepads.A) || 
+			gamepads.isJustDown(gamepads.B) || 
+			gamepads.isJustDown(gamepads.X) || 
+			gamepads.isJustDown(gamepads.Y) || 
+			keys.isJustDown(keys.SPACE) ||
+			keys.isJustDown(keys.E) ||
+			keys.isJustDown(keys.Z) ||
+			keys.isJustDown(keys.X) ||
+			keys.isJustDown(keys.ENTER)
 	};
 
 	if(keys.isDown(keys.A) || keys.isDown(keys.LEFT)){

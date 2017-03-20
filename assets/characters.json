@@ -1,0 +1,35 @@
+{
+	"characters": [
+	{
+		"name": "frogge",
+		"text": [
+			"*ribbit*",
+			"*croak*"
+		]
+	},
+	{
+		"name": "birb",
+		"text": [
+			"*ribbit*"
+		]
+	},
+	{
+		"name": "moop",
+		"text": [
+			"*ribbit*"
+		]
+	},
+	{
+		"name": "barp",
+		"text": [
+			"*ribbit*"
+		]
+	},
+	{
+		"name": "krinny",
+		"text": [
+			"*ribbit*"
+		]
+	}
+	]
+}
